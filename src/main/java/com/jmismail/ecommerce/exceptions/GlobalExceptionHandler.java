@@ -1,7 +1,7 @@
 package com.jmismail.ecommerce.exceptions;
 
-import com.jmismail.ecommerce.models.ErrorResponse;
-import com.jmismail.ecommerce.models.ValidationErrorResponse;
+import com.jmismail.ecommerce.responses.ErrorResponse;
+import com.jmismail.ecommerce.responses.ValidationErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -23,6 +23,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(errorMessage), HttpStatus.BAD_REQUEST);
     }
 
+
+    @ExceptionHandler(RuntimeException.class)
+    public  ResponseEntity<?> handleRuntimeException(RuntimeException ex) {
+        String result = ex.getMessage();
+        System.out.println(result);
+        return new ResponseEntity<>(new ErrorResponse(result), HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {

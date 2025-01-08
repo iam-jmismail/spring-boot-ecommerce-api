@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ProductsController {
@@ -17,35 +18,47 @@ public class ProductsController {
         this.productService = productService;
     }
 
-    List<Product> products = List.of(
-            new Product("1", "Dell laptop", "Laptop", 120000, "INR"),
-            new Product("2", "Macbook Air M1", "Laptop", 180000, "INR")
-    );
+    List<Product> products = List.of();
 
 
     @GetMapping("/products")
     public List<Product> getProducts(){
-        return this.products;
+        return this.productService.listProducts();
     }
 
     @GetMapping("/products/{productId}")
-    public Product getProduct(@PathVariable String productId){
-        System.out.println(productId);
-
-        return this.products.stream()
-                .filter(p -> p.getId().equals(productId))
-                .findFirst()
-                .orElse(null);
+    public Optional<Product> getProduct(@PathVariable String productId){
+        return this.productService.getProduct(productId);
     }
 
     @PutMapping("/products/{productId}")
-    public String updateProduct(){
-        return  "Product Updated";
+    public Product updateProduct(@RequestBody @Valid CreateProductDto createProductDto,
+                                 @PathVariable String productId ){
+
+        System.out.println(productId);
+
+        return  this.productService.updateProduct(
+                productId,
+                new Product(
+                        createProductDto.getName(),
+                        createProductDto.getDescription(),
+                        createProductDto.getPrice(),
+                        "INR"
+                )
+        );
     }
 
     @PostMapping("/products")
     public Product createProduct(@RequestBody @Valid CreateProductDto createProductDto){
         System.out.println(createProductDto.toString());
-        return  this.productService.createProduct(createProductDto);
+
+        return  this.productService.createProduct(
+                new Product(
+                        createProductDto.getName(),
+                        createProductDto.getDescription(),
+                        createProductDto.getPrice(),
+                        "INR"
+                )
+        );
     }
 }

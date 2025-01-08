@@ -1,4 +1,4 @@
-package com.jmismail.ecommerce.models;
+package com.jmismail.ecommerce.responses;
 
 import java.util.Map;
 
