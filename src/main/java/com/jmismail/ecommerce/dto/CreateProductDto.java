@@ -54,9 +54,9 @@ public class CreateProductDto  {
     @Override
     public String toString() {
         return "CreateProductDto{" +
-                "name='" + name + '\'' +
+                "price=" + price +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", price=" + price +
                 ", currency='" + currency + '\'' +
                 '}';
     }

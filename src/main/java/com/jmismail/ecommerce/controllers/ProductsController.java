@@ -18,9 +18,6 @@ public class ProductsController {
         this.productService = productService;
     }
 
-    List<Product> products = List.of();
-
-
     @GetMapping("/products")
     public List<Product> getProducts(){
         return this.productService.listProducts();
@@ -35,8 +32,6 @@ public class ProductsController {
     public Product updateProduct(@RequestBody @Valid CreateProductDto createProductDto,
                                  @PathVariable String productId ){
 
-        System.out.println(productId);
-
         return  this.productService.updateProduct(
                 productId,
                 new Product(
@@ -50,6 +45,7 @@ public class ProductsController {
 
     @PostMapping("/products")
     public Product createProduct(@RequestBody @Valid CreateProductDto createProductDto){
+
         System.out.println(createProductDto.toString());
 
         return  this.productService.createProduct(
